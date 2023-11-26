@@ -13,10 +13,14 @@ namespace PremiereOS
         protected override void BeforeRun()
         {
             VFSManager.RegisterVFS(fs);
+            BootLoader.Load();
+            Console.Clear();
+            Console.WriteLine(" PremiereOS v1 home & work \n");
         }
 
         protected override void Run()
         {
+            cmd.Run();
             
         }
     }
