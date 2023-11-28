@@ -9,6 +9,7 @@ namespace PremiereOS
 {
     public static class API
     {
+        public static string CurPath = @"0:\";
         public static void FG(ConsoleColor color)
         {
             Console.ForegroundColor = color;
@@ -67,6 +68,42 @@ namespace PremiereOS
                 Console.WriteLine($"File '{path}' has already exists!");
             }
         }
+        public static void TryDelDir(string path)
+        {
+            if (Directory.Exists(path))
+            {
+                try
+                {
+                    Directory.Delete(path, true);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Failed to delete directory. Reason: " + e.Message);
+                }
+            }
+            else
+            {
+                Console.WriteLine($"{path}: directory not found.");
+            }
+        }
+        public static void TryDelFile(string path)
+        {
+            if (Directory.Exists(path))
+            {
+                try
+                {
+                    File.Delete(path);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Failed to delete file. Reason: " + e.Message);
+                }
+            }
+            else
+            {
+                Console.WriteLine($"{path}: directory not found.");
+            }
+        }
         public static void Format(string disk)
         {
             DirectoryInfo directory = new DirectoryInfo(disk);
@@ -92,6 +129,53 @@ namespace PremiereOS
         public static void Message(string msg)
         {
 
+        }
+        public static void Dir(string path)
+        {
+            if (Directory.Exists(path))
+            {
+                var files_list = Directory.GetFiles(path);
+                var directory_list = Directory.GetDirectories(path);
+
+                foreach (var file in files_list)
+                {
+                    Console.WriteLine(file + "<FILE>");
+                }
+                foreach (var directory in directory_list)
+                {
+                    Console.WriteLine(directory + "<DIR>");
+                }
+            }
+            else
+            {
+                Console.WriteLine($"{path}: path not exists, or not found.");
+            }
+        }
+        public static void Cd(string path)
+        {
+            if (path.StartsWith(@"0:\"))
+            {
+                string curpath = path;
+                if (Directory.Exists(path))
+                {
+                    CurPath = path;
+                }
+                else
+                {
+                    Console.WriteLine($"{path}: directory not found.");
+                }
+            }
+            else
+            {
+                if (Directory.Exists(path))
+                {
+                    CurPath = path;
+                }
+                else
+                {
+                    Console.WriteLine($"{path}: directory not found.");
+                }
+            }
         }
         public static class FileContainer
         {
